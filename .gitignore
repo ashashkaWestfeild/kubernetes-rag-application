@@ -1,0 +1,18 @@
+# secrets
+.env
+
+# environment + caches
+.venv/
+__pycache__/
+*.pyc
+.logfire/
+*.log
+
+# private, not part of the project
+plan_folder/
+
+# course whiteboard (17 MB image)
+Marathon_live.*
+
+# large data, re-downloadable from the course repo
+DATA/noisy_data/
