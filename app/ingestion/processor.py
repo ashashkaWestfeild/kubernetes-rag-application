@@ -27,6 +27,7 @@ PROCESSED_DATA_DIR = "processed_data"
 qdrant_client = QdrantClient(
     url=settings.QDRANT_URL,
     api_key=settings.QDRANT_API_KEY,
+    timeout=10,
 )
 
 
