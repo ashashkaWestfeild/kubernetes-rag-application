@@ -14,5 +14,3 @@ plan_folder/
 # course whiteboard (17 MB image)
 Marathon_live.*
 
-# large data, re-downloadable from the course repo
-DATA/noisy_data/
