@@ -1,7 +1,5 @@
 # Data Ingestion Commands
 
-Source: https://agenticai-session.notion.site/Data-Ingestion-Commands-3925a934f2cf803b802ed0b6483257f4
-
 Ingestion commands for the 3 useful cases.
 
 ## 1. Ingest only clean data

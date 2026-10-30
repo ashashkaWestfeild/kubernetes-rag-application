@@ -11,6 +11,3 @@ __pycache__/
 # private, not part of the project
 plan_folder/
 
-# course whiteboard (17 MB image)
-Marathon_live.*
-

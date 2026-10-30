@@ -4,8 +4,6 @@ An enterprise-style Retrieval-Augmented Generation (RAG) assistant that answers 
 
 > **Status: work in progress.** The ingestion pipeline is built and verified. Retrieval, the agent, the API and everything after it are not built yet; see [Roadmap](#roadmap).
 
-Built while following Krish Naik's *Build Enterprise-Grade RAG Applications* live marathon ([video](https://youtu.be/bjkjaqUZl4E)). Every file is typed and debugged by hand; the course code ([d-hackmt/8hr-MARATHON](https://github.com/d-hackmt/8hr-MARATHON)) is used only as a reference when stuck.
-
 ## How ingestion works
 
 ```mermaid
@@ -109,5 +107,5 @@ app/
     embedding.py                Gemini embeddings + fallback
 DATA/                           true_data, noisy_data, noisy_sample_10
 processed_data/                 parsed chunks per file (generated)
-usefulCommands.md               ingestion commands from the course notes
+usefulCommands.md               ingestion commands
 ```
