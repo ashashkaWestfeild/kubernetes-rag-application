@@ -37,7 +37,7 @@ def generate_node(state: AgentState):
         """
     else:
         logfire.info("Generating technical RAG response.")
-        max_context_chars = 25000
+        max_context_chars = 12000 # 25000
         full_context = ""
 
         for doc in state["documents"]:
@@ -45,7 +45,7 @@ def generate_node(state: AgentState):
                 full_context += doc + "\n\n"
             else:
                 logfire.warning("Context truncated to fit Groq TPM limits.")
-                break
+                continue
 
         prompt = f"""
         You are a Senior Technical Architect.

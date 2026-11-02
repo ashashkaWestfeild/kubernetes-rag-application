@@ -62,10 +62,12 @@ def get_embedding_dim() -> int:
 # ── Batch embedding with retry ─────────────────────────────────────────────────
 
 def _embed_batch(batch: list[str]) -> list[list[float]]:
-    """Embed one batch of texts. Gemini retries rate-limit errors with exponential backoff (1 s, 2 s, 4 s); the local fallback model never retries."""
+    """
+    Exponential backoff: 6 attempts, waiting 5 -> 10 -> 20 -> 40 -> 60 s (outlasts a 60 s quota window)
+    """
     if _model_type == "gemini":
-        # Exponential backoff: 4 attempts, waiting 1 s -> 2 s -> 4 s between them
-        for attempt in range(4):
+        # Exponential backoff: 6 attempts, waiting 5 s -> 10 s -> 20 s ... between them
+        for attempt in range(6):
             try:
                 # One API call for the whole batch (saves RPM/RPD quota)
                 return _active_model.embed_documents(batch)
@@ -73,11 +75,11 @@ def _embed_batch(batch: list[str]) -> list[list[float]]:
                 err = str(e).lower()
                 # Retry only transient quota errors; anything else (bad key, bad input) fails immediately
                 is_rate_limit = any(x in err for x in ("429", "rate", "quota", "resource_exhausted"))
-                if is_rate_limit and attempt < 3:
-                    wait = 2 ** attempt  # 1, 2, 4 seconds
+                if is_rate_limit and attempt < 5:
+                    wait = min(60, 5 * 2 ** attempt)  # 5, 10, 20, 40, 60 seconds
                     logfire.warning(
                         f"Gemini rate limit hit — retrying in {wait}s "
-                        f"(attempt {attempt + 1}/4)."
+                        f"(attempt {attempt + 1}/6)."
                     )
                     time.sleep(wait)
                 else:
@@ -85,7 +87,7 @@ def _embed_batch(batch: list[str]) -> list[list[float]]:
                     logfire.error(f"Gemini embedding failed: {e}")
                     raise
         # Safety net only: every path above returns or raises, so this line is never reached
-        raise RuntimeError("Gemini rate limit persisted after 4 attempts.")
+        raise RuntimeError("Gemini rate limit persisted after 6 attempts.")
     else:
         # Fallback: local sentence-transformers model, no API, no rate limit; numpy array -> plain lists
         return _active_model.encode(batch, show_progress_bar=False).tolist()
