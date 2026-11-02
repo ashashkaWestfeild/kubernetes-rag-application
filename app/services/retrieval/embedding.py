@@ -73,9 +73,10 @@ def _embed_batch(batch: list[str]) -> list[list[float]]:
                 return _active_model.embed_documents(batch)
             except Exception as e:
                 err = str(e).lower()
-                # Retry only transient quota errors; anything else (bad key, bad input) fails immediately
-                is_rate_limit = any(x in err for x in ("429", "rate", "quota", "resource_exhausted"))
-                if is_rate_limit and attempt < 5:
+                # Retry only transient errors (429/5xx); anything else (bad key, bad input) fails immediately
+                is_retryable = any(x in err for x in ("429", "rate", "quota", "resource_exhausted", "500", "503", 
+                                                      "unavailable", "overloaded", "internal", "deadline"))
+                if is_retryable and attempt < 5:
                     wait = min(60, 5 * 2 ** attempt)  # 5, 10, 20, 40, 60 seconds
                     logfire.warning(
                         f"Gemini rate limit hit — retrying in {wait}s "

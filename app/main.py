@@ -41,7 +41,7 @@ def home():
 @app.get("/graph")
 def get_graph_image():
     """
-    Returns the Mermaid image of the agent's workflow.
+    Returns the Mermaid image of the agent's workflow. Routes to Graph page.
     """
     try:
         png_bytes = rag_agent.get_graph().draw_mermaid_png()
@@ -54,6 +54,8 @@ def get_graph_image():
 def query(request: QueryRequest):
     """
     Executes the LangGraph RAG flow with memory using a POST request.
+    Routes to Query page.
+    thread_id = session id
     """
     q = request.q
     thread_id = request.thread_id
