@@ -47,6 +47,7 @@ loguru                      # Enhanced logging for Python
 # --- GUARDRAILS ---
 nemoguardrails              # NVIDIA NeMo Guardrails for input/output safety rails
 langchain-nvidia-ai-endpoints # LangChain integration with NVIDIA AI Endpoints
+langchain-google-vertexai   # Required shim for NeMo Guardrails internal import
 
 # --- LLM GATEWAY ---
 portkey-ai                  # Portkey Gateway for unified LLM routing, fallbacks & observability
@@ -60,4 +61,3 @@ langfuse                    # Live production monitoring, tracing & user feedbac
 sentence-transformers       # Used by FlashRank reranker internally
 langchain_google_genai
 
-langchain-google-vertexai
