@@ -1,13 +1,30 @@
-# secrets
+# --- secrets ---
 .env
+.env.*
+!.env.example
+.streamlit/secrets.toml
 
-# environment + caches
+# --- python environment + caches ---
 .venv/
 __pycache__/
 *.pyc
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# --- tool output + logs ---
 .logfire/
 *.log
 
-# private, not part of the project
-plan_folder/
+# --- editor / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
 
+# --- private, not part of the project ---
+plan_folder/

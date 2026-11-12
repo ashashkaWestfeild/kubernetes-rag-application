@@ -1,63 +1,55 @@
 # ==============================================================================
 # ENTERPRISE AGENTIC RAG - REQUIREMENTS (Local, No GCP)
+# Versions pinned to the working .venv (Python 3.13) on 9 Nov 2026.
 # ==============================================================================
 
 # --- CORE API & WEB FRAMEWORK ---
-fastapi                     # High-performance web framework for the API
-uvicorn[standard]           # ASGI server to run the FastAPI app
-python-dotenv               # For loading configuration from .env files
-requests                    # HTTP library for internal/external API calls
-streamlit                   # Frontend dashboard for the chat interface
-numpy                       # Numerical processing
-pytz                        # Timezone handling for logs
-nest-asyncio                # Support for nested async loops in notebooks/streamlit
+fastapi==0.162.0                    # High-performance web framework for the API
+uvicorn[standard]==0.54.0           # ASGI server to run the FastAPI app
+python-dotenv==1.2.4                # For loading configuration from .env files
+requests==2.34.2                    # HTTP library for internal/external API calls
+streamlit==1.66.1                   # Frontend dashboard for the chat interface
+numpy==2.5.4                        # Numerical processing
+pytz==2026.5                        # Timezone handling for logs
+nest-asyncio==1.6.0                 # Support for nested async loops in notebooks/streamlit
 
 # --- GEMINI EMBEDDINGS ---
-google-generativeai         # Gemini API — embeddings (text-embedding-004 / gemini-embedding-001)
-langchain-google-genai      # LangChain integration for Gemini models
-sentence-transformers       # Local fallback embedding model if the Gemini API is unavailable
+google-generativeai==0.8.6          # Gemini API — embeddings
+langchain-google-genai==4.3.7       # LangChain integration for Gemini models
+sentence-transformers==6.2.0        # Local fallback embedding model if the Gemini API is unavailable
 
 # --- VECTOR DB & RETRIEVAL ---
-qdrant-client               # Vector Database for semantic search
-flashrank                   # Ultra-fast local cross-encoder for semantic reranking
+qdrant-client==1.20.0               # Vector Database for semantic search
+flashrank==0.2.10                   # Ultra-fast local cross-encoder for semantic reranking
 
 # --- LANGCHAIN & AGENTIC ORCHESTRATION ---
-langchain                   # Core LLM orchestration
-langgraph                   # State-machine logic for cyclic agent flows
-langchain-groq              # Integration for lightning-fast Llama 3.3 models
-langchain-google-vertexai   # Required shim for NeMo Guardrails internal import (no GCP credentials needed)
-langchain-community         # Community-contributed tools and loaders
-langchain-openai            # OpenAI-compatible layer (used by Portkey gateway)
-pydantic>=2.0.0             # Data validation and settings management
+langchain==1.4.7                    # Core LLM orchestration
+langgraph==1.2.18                   # State-machine logic for cyclic agent flows
+langchain-groq==1.1.3               # Integration for Groq-hosted models
+langchain-google-vertexai==3.2.5    # Required shim for NeMo Guardrails internal import (no GCP credentials needed)
+langchain-community==0.4.2          # Community-contributed tools and loaders
+langchain-openai==1.7.3             # OpenAI-compatible layer (used by the LLM gateway)
+pydantic==2.14.1                    # Data validation and settings management
 
 # --- DATA INGESTION & DOCUMENT PARSING ---
-unstructured                # Base library for DOCX/PPTX partitioning
-python-pptx                 # Parser for PowerPoint files
-python-docx                 # Parser for Word documents
-pypdf                       # Local PDF text extraction (replaces Document AI)
-beautifulsoup4              # High-speed HTML text extraction
-pdfplumber                  # Fallback PDF parser for scanned/complex layouts
-langchain-text-splitters
+unstructured==0.27.35               # Base library for DOCX/PPTX partitioning
+python-pptx==1.0.2                  # Parser for PowerPoint files
+python-docx==1.2.0                  # Parser for Word documents
+pypdf==6.21.3                       # Local PDF text extraction (replaces Document AI)
+beautifulsoup4==4.15.0              # High-speed HTML text extraction
+pdfplumber==0.11.10                 # Fallback PDF parser for scanned/complex layouts
+langchain-text-splitters==1.1.3     # Recursive splitter used by the chunker
 
 # --- OBSERVABILITY & DISTRIBUTED TRACING ---
-langsmith                   # Specialized tracing for LangChain/LangGraph
-logfire[fastapi,requests]   # Pydantic Logfire — FastAPI + requests instrumentation
-loguru                      # Enhanced logging for Python
+langsmith==0.14.14                  # Specialized tracing for LangChain/LangGraph
+logfire[fastapi,requests]==5.4.0    # Pydantic Logfire — FastAPI + requests instrumentation
+loguru==0.7.3                       # Enhanced logging for Python
 
 # --- GUARDRAILS ---
-nemoguardrails              # NVIDIA NeMo Guardrails for input/output safety rails
-langchain-nvidia-ai-endpoints # LangChain integration with NVIDIA AI Endpoints
-langchain-google-vertexai   # Required shim for NeMo Guardrails internal import
-
-# --- LLM GATEWAY ---
-portkey-ai                  # Portkey Gateway for unified LLM routing, fallbacks & observability
+nemoguardrails==0.24.1              # NVIDIA NeMo Guardrails for input/output safety rails
+langchain-nvidia-ai-endpoints==1.5.0  # LangChain integration with NVIDIA AI Endpoints
 
 # --- EVALUATION (EVALS) ---
-ragas                       # RAG-specific evaluation metrics (Faithfulness, Relevancy, Recall)
-deepeval                    # Pytest-compatible test runner wrapping RAGAS & safety metrics
-langfuse                    # Live production monitoring, tracing & user feedback collection
-
-# --- EMBEDDINGS (SENTENCE TRANSFORMERS) ---
-sentence-transformers       # Used by FlashRank reranker internally
-langchain_google_genai
-
+ragas==0.3.1                        # RAG-specific evaluation metrics (Faithfulness, Relevancy, Recall)
+deepeval==2.9.3                     # Pytest-compatible test runner wrapping RAGAS & safety metrics
+langfuse==5.0.4                     # Live production monitoring, tracing & user feedback collection

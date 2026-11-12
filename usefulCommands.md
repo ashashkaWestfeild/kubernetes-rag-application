@@ -34,3 +34,14 @@ Use `--wipe` when you want a fresh Qdrant collection. If you want to append nois
 - **RAGAS metrics**: faithfulness, answer relevancy, context precision, context recall, answer correctness (`evals/metrics.py`)
 - **Tool correctness**: expected tool vs actual tool (`evals/metrics.py`)
 - **Results dashboard**: scores + tables + summary (`evals/app.py`)
+
+
+
+## LLM gateway (LiteLLM proxy) — start first, in its own terminal
+
+```bash
+uvx --env-file .env --from "litellm[proxy]==1.108.3" litellm --config litellm_config.yaml --port 4000
+```
+
+Health check: `curl.exe http://localhost:4000/health/liveliness`
+Then start the backend (`python -m uvicorn app.main:app --reload`) and the UI (`streamlit run ui/app.py`).

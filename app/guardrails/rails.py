@@ -1,8 +1,7 @@
 import logfire
-from langchain_groq import ChatGroq
 from nemoguardrails import RailsConfig, LLMRails
 
-from app.config import settings
+from app.gateway import get_langchain_llm
 from app.guardrails.colang_rules import COLANG_CONTENT, YAML_CONTENT, RAIL_INDICATORS
 
 
@@ -12,16 +11,13 @@ _rails: LLMRails | None = None
 def initialize_rails() -> None:
     """
     Build the NeMo LLMRails singleton at app startup.
-    Uses llama-3.1-8b-instant for fast intent classification at the gate —
-    the heavier llama-3.3-70b-versatile is reserved for the RAG pipeline.
+    Uses the gateway alias 'guard-llm' (a small, fast model) for intent classification at the gate;
+    the RAG pipeline uses 'rag-llm'. Both are defined in litellm_config.yaml.
     """
     global _rails
 
-    guard_llm = ChatGroq(
-        api_key=settings.GROQ_API_KEY,
-        model="llama-3.1-8b-instant",
-        temperature=0
-    )
+    # Gateway alias defined in litellm_config.yaml (model, retries and fallback live there)
+    guard_llm = get_langchain_llm("guard-llm")
 
     config = RailsConfig.from_content(
         colang_content=COLANG_CONTENT,
@@ -29,7 +25,7 @@ def initialize_rails() -> None:
     )
 
     _rails = LLMRails(config, llm=guard_llm)
-    logfire.info("🛡️ NeMo Guardrails initialised (llama-3.1-8b-instant).")
+    logfire.info("🛡️ NeMo Guardrails initialised (gateway alias: guard-llm).")
     
     
 

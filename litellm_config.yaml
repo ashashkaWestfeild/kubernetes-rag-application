@@ -1,0 +1,28 @@
+model_list:
+  - model_name: rag-llm                    # planner + responder
+    litellm_params:
+      model: groq/qwen/qwen3.8-27b
+      api_key: os.environ/GROQ_API_KEY
+  - model_name: rag-llm-backup             # only when rag-llm fails
+    litellm_params:
+      model: groq/openai/gpt-oss-20b
+      api_key: os.environ/GROQ_FALLBACK_API_KEY
+  - model_name: guard-llm                  # NeMo guardrails
+    litellm_params:
+      model: groq/openai/gpt-oss-20b
+      api_key: os.environ/GROQ_API_KEY
+
+litellm_settings:
+  num_retries: 2                           # retry transient errors (429/5xx) before falling back
+  request_timeout: 30
+  fallbacks: [{"rag-llm": ["rag-llm-backup"]}]
+
+general_settings:
+  master_key: os.environ/LITELLM_MASTER_KEY
+
+
+# Caching
+  cache: true
+  cache_params:
+    type: local          # in-memory, inside the proxy process; no extra service
+    ttl: 3600            # seconds; keeps answers from going stale after re-ingestion
