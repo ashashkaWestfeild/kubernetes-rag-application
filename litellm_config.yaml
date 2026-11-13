@@ -16,13 +16,12 @@ litellm_settings:
   num_retries: 2                           # retry transient errors (429/5xx) before falling back
   request_timeout: 30
   fallbacks: [{"rag-llm": ["rag-llm-backup"]}]
+  cache: true                              # exact-match response cache
+  cache_params:
+    type: local                            # in-memory, inside the proxy process; no extra service
+    ttl: 3600                              # seconds; keeps answers from going stale after re-ingestion
 
 general_settings:
   master_key: os.environ/LITELLM_MASTER_KEY
 
 
-# Caching
-  cache: true
-  cache_params:
-    type: local          # in-memory, inside the proxy process; no extra service
-    ttl: 3600            # seconds; keeps answers from going stale after re-ingestion

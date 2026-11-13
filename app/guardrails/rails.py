@@ -57,3 +57,4 @@ def guard(message: str) -> tuple[bool, str | None]:
 
         logfire.info("✅ Guardrails passed.")
         return False, None
+
